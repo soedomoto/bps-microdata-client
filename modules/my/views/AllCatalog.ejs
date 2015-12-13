@@ -1,0 +1,22 @@
+<% layout('layout/main') -%>
+<%- partial('CatalogHeader') %>
+
+<ul class="breadcrumb">
+    <li class="active"><a href="/my/catalog">Catalog</a></li>
+</ul>
+
+<ul class="media-list main-list">
+	<% for(var c=0; c<catalogs.length; c++) { %>
+		<li class="media">
+			<a class="pull-left" href="/my/catalog/<%= catalogs[c].id %>">
+				<img class="media-object" src="/my/catalog/<%= catalogs[c].id %>/thumb" alt="...">
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading">
+					<a href="/my/catalog/<%= catalogs[c].id %>"><%= catalogs[c].title %></a>
+				</h4>
+				<p class="by-author">Badan Pusat Statistik</p>
+			</div>
+		</li>
+	<% } %>
+</ul>

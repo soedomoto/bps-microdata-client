@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>BPS - Microdata Service</title>
+
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/assets/dist/my.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="/assets/ie9/html5shiv.js"></script>
+    <script src="/assets/ie9/respond.min.js"></script>
+    <![endif]-->       
+    <link rel="shortcut icon" href="/assets/images/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/assets/images/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/assets/images/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/assets/images/ico/apple-touch-icon-57-precomposed.png">
+
+    <script src="/assets/jquery/jquery.min.js"></script>
+</head>
+
+<body id="home" class="homepage">
+    <div class="preloading">
+        <img class="loading-gif" src="/assets/images/loading.svg" alt="preloader">
+    </div>
+
+    <div class="container">
+        <div class="row profile">
+            <div class="col-md-3">
+                <div class="profile-sidebar">
+                    <!-- SIDEBAR USERPIC -->
+                    <div class="profile-userpic">
+                        <img src="/assets/images/anonymous.png" class="img-responsive" alt="">
+                    </div>
+                    <!-- END SIDEBAR USERPIC -->
+                    <!-- SIDEBAR USER TITLE -->
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            Aris Prawisudatama
+                        </div>
+                        <div class="profile-usertitle-job">
+                            Administrator
+                        </div>
+                    </div>
+                    <!-- END SIDEBAR USER TITLE -->
+                    <!-- SIDEBAR BUTTONS -->
+                    <div class="profile-userbuttons">
+                        <button type="button" class="btn btn-success btn-sm">Follow</button>
+                        <button type="button" class="btn btn-danger btn-sm">Message</button>
+                    </div>
+                    <!-- END SIDEBAR BUTTONS -->
+                    <!-- SIDEBAR MENU -->
+                    <div class="profile-usermenu">
+                        <ul class="nav">
+                            <li class="active">
+                                <a href="home.html" onclick="return false;">
+                                <i class="fa fa-home"></i>
+                                Home </a>
+                            </li>
+                            <li>
+                                <a href="catalog.html" onclick="return false;">
+                                <i class="fa fa-book"></i>
+                                Catalog </a>
+                            </li>
+                            <li>
+                                <a href="microdata.html" onclick="return false;">
+                                <i class="fa fa-copy"></i>
+                                Microdata </a>
+                            </li>
+                            <li>
+                                <a href="consultation.html" onclick="return false;">
+                                <i class="fa fa-fax"></i>
+                                Consultation </a>
+                            </li>
+                            <li>
+                                <a href="notification.html" onclick="return false;">
+                                <i class="fa fa-bell-o"></i>
+                                Notifications </a>
+                            </li>
+                            <li>
+                                <a href="account.html" onclick="return false;">
+                                <i class="fa fa-user"></i>
+                                Account </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- END MENU -->
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="profile-content">
+                   <%- body %>
+                </div>
+            </div>
+        </div>
+    </div>
+    <center>
+        <strong>Powered by <a href="http://j.mp/metronictheme" target="_blank">KeenThemes</a></strong>
+    </center>
+
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/dist/my.js"></script>
+</body>
+
+</html>

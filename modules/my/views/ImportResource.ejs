@@ -1,0 +1,112 @@
+<% layout('layout/main') -%>
+<%- partial('CatalogHeader') %>
+
+<ul class="breadcrumb">
+    <li><a href="/my/catalog">Catalog</a></li>
+    <li><a href="/my/catalog/<%= resource.catalog.id %>"><%= resource.catalog.title %></a></li>
+    <li><a href="/my/resource/<%= resource.id %>"><%= resource.fileName %></a></li>
+    <li class="active"><a href="/my/resource/<%= resource.id %>/import">Import</a></li>
+</ul>
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<strong>Import Catalog</strong> <small>upload *.dbf file</small>
+	</div>
+	<div class="panel-body">
+		<!-- Standar Form -->
+		<h4>Select files from your computer</h4>
+		<form action="" method="post" enctype="multipart/form-data" id="js-upload-form">
+			<div class="form-inline">
+				<div class="form-group">
+					<input type="file" name="files[]" id="js-upload-files" multiple>
+				</div>
+				<button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload files</button>
+			</div>
+		</form>
+
+		<!-- Drop Zone -->
+		<h4>Or drag and drop files below</h4>
+		<div class="upload-drop-zone" id="drop-zone">
+			Just drag and drop files here
+		</div>
+
+		<!-- Progress Bar -->
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+				<span class="sr-only">60% Complete</span>
+			</div>
+		</div>
+
+		<!-- Upload Finished -->
+		<div class="js-upload-finished">
+			<h3>Processed files</h3>
+			<div class="list-group">
+				<a href="#" class="list-group-item list-group-item-success"><span class="badge alert-success pull-right">Success</span>image-01.jpg</a>
+				<a href="#" class="list-group-item list-group-item-success"><span class="badge alert-success pull-right">Success</span>image-02.jpg</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	var dropZone = document.getElementById('drop-zone');
+    var uploadForm = document.getElementById('js-upload-form');
+
+    var startUpload = function(files) {
+        $.each(files, function(i, file) {
+        	var data = new FormData();
+        	data.append('dbffile', file);
+
+        	$.ajax({
+				type:'post',
+				url:'http://localhost:8080/api/resource/<%= resource.id %>/import/dbf',
+				data:data,
+				contentType : false, 
+				processData : false, 
+				cache : false,
+				xhr: function() { 
+					var xhr = $.ajaxSettings.xhr();
+					xhr.upload.addEventListener("progress", function(evt) {
+						if (evt.lengthComputable) {
+							var percentComplete = parseInt(evt.loaded / evt.total * 100);
+							console.log(percentComplete);
+
+							if (percentComplete === 100) {
+
+							}
+						}
+					}, false);
+
+					return xhr;
+				},
+				success:function(data) {
+					alert('successfully uploaded file with '+data+' lines');
+				}
+			});
+        })
+    }
+
+    uploadForm.addEventListener('submit', function(e) {
+        var uploadFiles = document.getElementById('js-upload-files').files;
+        e.preventDefault()
+
+        startUpload(uploadFiles)
+    })
+
+    dropZone.ondrop = function(e) {
+        e.preventDefault();
+        this.className = 'upload-drop-zone';
+
+        startUpload(e.dataTransfer.files)
+    }
+
+    dropZone.ondragover = function() {
+        this.className = 'upload-drop-zone drop';
+        return false;
+    }
+
+    dropZone.ondragleave = function() {
+        this.className = 'upload-drop-zone';
+        return false;
+    }
+</script>

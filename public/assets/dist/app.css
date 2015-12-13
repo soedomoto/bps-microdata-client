@@ -1,0 +1,122 @@
+body {
+    font-size: 13px;
+}
+
+.preloading {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    background: #FFF none repeat scroll 0% 0%;
+    display: block;
+}
+
+.loading-gif {
+    padding: 8px;
+    opacity: 1 !important;
+    border-radius: 3px !important;
+    background: #FFF none repeat scroll 0% 0%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+header.navbar {
+    transition: all 0.2s ease 0s;
+}
+
+.navbar {
+    min-height: 80px;
+}
+
+.navbar-default {
+    background-color: #FFF;
+    border-color: #FFF;
+}
+
+.navbar > .container .navbar-brand, .navbar > .container-fluid .navbar-brand {
+    margin-left: auto !important;
+}
+
+.navbar-nav > li > a, li.dropdown.open {
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.2s ease 0s;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #292929;
+}
+
+.navbar-nav > li > a:hover, .navbar-nav > li > a:focus, .navbar-nav > li > a.active, li.dropdown.open:hover, li.dropdown.open:focus, li.dropdown.open.active {
+    box-shadow: 0px 0px 0px 1px #E77500;
+    background: #F3AC58 none repeat scroll 0% 0% !important;
+}
+
+.navbar-brand {
+    padding: 12px;
+    height: 80px;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav > li > a {
+        padding-top: 31px;
+        padding-bottom: 31px;
+    }
+}
+
+a {
+    color: #0084DD;
+    text-decoration: none;
+    transition: all 0.3s ease 0s;
+}
+
+section {
+    overflow: hidden;
+    padding-bottom: 70px;
+}
+
+section.home-slider {
+    margin-top: 80px;
+    background-image: url("../images/header.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: #FFF;
+    background-size: cover;
+    min-height: 550px;
+    position: relative;
+}
+
+section.home-slider .home-slider-caption {
+    width: 60%;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+section.home-slider h1 {
+    color: #FFF;
+    letter-spacing: -4px;
+    font-size: 5em;
+    font-weight: 100;
+    line-height: 1;
+    -moz-text-stroke: 1px black;
+    color: white;
+    text-shadow:
+        3px 3px 0 #FF8101,
+        -1px -1px 0 #FF8101,  
+        1px -1px 0 #FF8101,
+        -1px 1px 0 #FF8101,
+        1px 1px 0 #FF8101;
+}
+}
+
+.bounceInLeft {
+    animation-name: bounceInLeft;
+}

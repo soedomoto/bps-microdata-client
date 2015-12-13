@@ -1,0 +1,374 @@
+<% layout('layout/main') -%>
+<%- partial('CatalogHeader') %>
+
+<ul class="breadcrumb">
+    <li><a href="/my/catalog">Catalog</a></li>
+    <li class="active"><a href="/my/catalog/<%= detail.id %>"><%= detail.title %></a></li>
+</ul>
+
+<div class="catalog-details">
+    <div class="catalog-image">
+    	<div class="catalog-image-container img-circle" style="background : url(/my/catalog/<%= detail.id %>/thumb);"></div>
+    </div>
+    <div class="catalog-info-block">
+        <div class="catalog-heading">
+            <h3><%= detail.title %></h3>
+            <span class="help-block">
+            	<%= detail.ddi.geogCover.substr(0, detail.ddi.geogCover.indexOf(',')) %>, 
+            	<% 
+            		var year = "";
+            		if(detail.ddi.collectionDate.length > 0) {
+            			year = detail.ddi.collectionDate[0].date;
+            		} else {
+            			year = detail.ddi.collectionDate;
+            		}
+            	%>
+            	<%= year.substr(0, year.indexOf('-')) %>
+            </span>
+        </div>
+        <ul class="navigation">
+            <li class="active">
+                <a data-toggle="tab" href="#cat-home">
+                    <span class="fa fa-home"></span>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#cat-sample">
+                    <span class="fa fa-clone"></span>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#cat-clipboard">
+                    <span class="fa fa-clipboard"></span>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#cat-comp">
+                    <span class="fa fa-laptop"></span>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#cat-quality">
+                    <span class="fa fa-thumbs-up"></span>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#cat-access">
+                    <span class="fa fa-sign-in"></span>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#cat-res">
+                    <span class="fa fa-copy"></span>
+                </a>
+            </li>
+        </ul>
+        <div class="catalog-body">
+            <div class="tab-content">
+                <div id="cat-home" class="tab-pane active">
+                	<div class="section">
+                		<h4>General<span class="toggle fa fa-chevron-down"></span></h4>
+	                	<div class="sub-section">
+	                		<div class="header">ID Referensi</div><div><%= detail.ddi.idno %></div>
+	                		<div class="header">Tahun</div><div><%= year %></div>
+	                		<div class="header">Negara</div><div><%= detail.ddi.nation.nation + " ("+ detail.ddi.nation.abbr +")" %></div>
+	                		<div class="header">Penghasil</div><div><%= detail.ddi.authEnty.AuthEnty + ", " + detail.ddi.authEnty.affiliation %></div>
+	                		<div class="header">Sponsor</div><div><%= detail.ddi.funder %></div>
+	                		<div class="header">Metadata</div><div><%= detail.ddi.idno %></div>
+	                	</div>
+                	</div>
+                    <div class="section">
+                    	<h4>Identifikasi<span class="toggle fa fa-chevron-down"></span></h4>
+                    	<div class="sub-section">
+                    		<div class="header">Negara</div><div><%= detail.ddi.nation.nation + " ("+ detail.ddi.nation.abbr +")" %></div>
+                    		<div class="header">Judul</div><div><%= detail.ddi.title %></div>
+                    		<div class="header">Jenis Studi</div><div><%= detail.ddi.ser.name %></div>
+                    		<div class="header">Informasi Data</div><div><%= detail.ddi.ser.info %></div>
+                    		<div class="header">Nomor ID</div><div><%= detail.ddi.idno %></div>
+                    	</div>
+                    </div>
+                    <div class="section">
+                    	<h4>Versi<span class="toggle fa fa-chevron-down"></span></h4>
+                    	<div class="sub-section">
+                    		<div class="header">Deskripsi Versi</div><div><%= detail.ddi.version %></div>
+                    	</div>
+                    </div>
+                    <div class="section">
+                    	<h4>Gambaran<span class="toggle fa fa-chevron-down"></span></h4>
+                    	<div class="sub-section">
+                    		<div class="header">Abstrak</div><div><%= detail.ddi.abstract %></div>
+                    		<div class="header">Jenis Data</div><div><%= detail.ddi.dataKind %></div>
+                    		<div class="header">Unit Analisis</div><div><%= detail.ddi.anlyUnit %></div>
+                    	</div>
+                    </div>
+                    <div class="section">
+                    	<h4>Ruang Lingkup<span class="toggle fa fa-chevron-down"></span></h4>
+                    	<div class="sub-section">
+                    		<div class="header">Catatan</div><div><%= detail.ddi.studyNotes %></div>
+                    		<div class="header">Topik Bahasan</div><div>
+                    			<table class="table table-striped custab">
+								    <thead>
+								        <tr>
+								            <th>Topik</th><th>Kosakata</th><th>URI</th>
+								        </tr>
+								    </thead>
+								<% for(var t=0; t<detail.ddi.topcClas.length; t++) { %>
+						            <tr>
+						                <td><%= detail.ddi.topcClas[t].topcclas %></td>
+						                <td><%= detail.ddi.topcClas[t].vocab %></td>
+						                <td><%= detail.ddi.topcClas[t].uri ? detail.ddi.topcClas[t].uri : "" %></td>
+						            </tr>
+								<% } %>
+								</table>
+                    		</div>
+                    		<div class="header">Kata Kunci</div><div><%= detail.ddi.keyword.join(", ") %></div>
+                    	</div>
+                    </div>
+                    <div class="section">
+                    	<h4>Cakupan<span class="toggle fa fa-chevron-down"></span></h4>
+                    	<div class="sub-section">
+                    		<div class="header">Cakupan Geografis</div><div><%= detail.ddi.geogCover %></div>
+                    		<div class="header">Penyajian</div><div><%= detail.ddi.geogUnit %></div>
+                    		<div class="header">Populasi</div><div><%= detail.ddi.universe %></div>
+                    	</div>
+                    </div>
+                    <div class="section">
+                    	<h4>Penghasil dan Sponsor<span class="toggle fa fa-chevron-down"></span></h4>
+                    	<div class="sub-section">
+                    		<div class="header">Penanggungjawab Utama</div><div>
+                    			<table class="table table-striped custab">
+								    <thead>
+								        <tr>
+								            <th>Nama</th><th>Afiliasi</th>
+								        </tr>
+								    </thead>
+									<tr>
+						                <td><%= detail.ddi.authEnty.AuthEnty %></td>
+						                <td><%= detail.ddi.authEnty.affiliation %></td>
+						            </tr>
+								</table>
+                    		</div>
+                    		<div class="header">Prosedur Lainnya</div><div>
+                    			<table class="table table-striped custab">
+								    <thead>
+								        <tr>
+								            <th>Nama</th><th>Afiliasi</th><th>Role</th>
+								        </tr>
+								    </thead>
+									<tr>
+						                <td><%= detail.ddi.producer.AuthEnty %></td>
+						                <td><%= detail.ddi.producer.affiliation %></td>
+						                <td></td>
+						            </tr>
+								</table>
+                    		</div>
+                    		<div class="header">Pendanaan</div><div>
+                    			<table class="table table-striped custab">
+								    <thead>
+								        <tr>
+								            <th>Nama</th><th>Singkatan</th><th>Role</th>
+								        </tr>
+								    </thead>
+									<tr>
+						                <td><%= detail.ddi.funder %></td>
+						                <td></td>
+						                <td></td>
+						            </tr>
+								</table>
+                    		</div>
+                    	</div>
+                    </div>
+                    <div class="section">
+                    	<h4>Metadata<span class="toggle fa fa-chevron-down"></span></h4>
+                    	<div class="sub-section">
+                    		<%
+                    			var versions = detail.ddi.version.match(/\(([^)]+)\)/);
+                    		%>
+                    		<div class="header">Tanggal Produksi</div><div>
+	                    		<%= 
+	                    			versions ? ( versions.length > 1 ? versions[1] : versions[0] ) : detail.ddi.version 
+	                    		%>
+                    		</div>
+                    		<div class="header">Versi Dokumen</div><div><%= detail.ddi.version %></div>
+                    		<div class="header">Identitas Dokumen</div><div><%= "DDI-" + detail.ddi.idno + "-BPS" %></div>
+                    	</div>
+                    </div>
+                </div>
+                <div id="cat-sample" class="tab-pane">
+                    <div class="section">
+                		<h4>Sampling<span class="toggle fa fa-chevron-down"></span></h4>
+	                	<div class="sub-section">
+	                		<div class="header">Prosedur</div><div><%= detail.ddi.sampProc %></div>
+	                		<div class="header">Response Rate</div><div><%= detail.ddi.respRate %></div>
+	                	</div>
+                	</div>
+                </div>
+                <div id="cat-clipboard" class="tab-pane">
+                    <div class="section">
+                		<h4>Pengumpulan Data<span class="toggle fa fa-chevron-down"></span></h4>
+	                	<div class="sub-section">
+	                		<div class="header">Jadwal Pengumpulan Data</div><div>
+	                			<table class="table table-striped custab">
+								    <thead>
+								        <tr>
+								            <th>Tahapan</th><th>Mulai</th><th>Akhir</th>
+								        </tr>
+								    </thead>
+								<%
+									var cycles = {};
+									for(var d=0; d<detail.ddi.collectionDate.length; d++) {
+										cycles[detail.ddi.collectionDate[d].cycle] = {};
+									}
+
+									for(var d=0; d<detail.ddi.collectionDate.length; d++) {
+										if(detail.ddi.collectionDate[d].event == "start") {
+											cycles[detail.ddi.collectionDate[d].cycle]["start"] = detail.ddi.collectionDate[d].date;
+										}
+										if(detail.ddi.collectionDate[d].event == "end") {
+											cycles[detail.ddi.collectionDate[d].cycle]["end"] = detail.ddi.collectionDate[d].date;
+										}
+									}
+
+									var keys = Object.keys(cycles);
+									for(var c=0; c<keys.length; c++) {
+								%>
+									<tr>
+						                <td><%= keys[c] %></td>
+						                <td><%= cycles[keys[c]].start %></td>
+						                <td><%= cycles[keys[c]].end %></td>
+						            </tr>
+								<% 	} 	%>
+								</table>
+	                		</div>
+	                		<div class="header">Jenis Pengumpulan Data</div><div><%= detail.ddi.collMode %></div>
+	                		<div class="header">Petugas Lapangan</div><div>
+	                			<table class="table table-striped custab">
+								    <thead>
+								        <tr>
+								            <th>Nama</th><th>Singkatan</th><th>Afiliasi</th>
+								        </tr>
+								    </thead>
+								<% for(var t=0; t<detail.ddi.dataCollector.length; t++) { %>
+						            <tr>
+						                <td><%= detail.ddi.dataCollector[t].collector %></td>
+						                <td><%= detail.ddi.dataCollector[t].abbr ? detail.ddi.dataCollector[t].abbr : "" %></td>
+						                <td><%= detail.ddi.dataCollector[t].affiliation ? detail.ddi.dataCollector[t].affiliation : "" %></td>
+						            </tr>
+								<% } %>
+								</table>
+	                		</div>
+	                		<div class="header">Pengawasan</div><div><%= detail.ddi.actMin %></div>
+	                	</div>
+                	</div>
+                </div>
+                <div id="cat-comp" class="tab-pane">
+                    <div class="section">
+                		<h4>Pengolahan<span class="toggle fa fa-chevron-down"></span></h4>
+	                	<div class="sub-section">
+	                		<div class="header">Pemeriksaan Data</div><div><%= detail.ddi.cleanOps %></div>
+	                		<div class="header">Pengolahan Lainnya</div><div><%= detail.ddi.methodNotes %></div>
+	                	</div>
+                	</div>
+                </div>
+                <div id="cat-quality" class="tab-pane">
+                    <div class="section">
+                		<h4>Penilaian Kualitas Data<span class="toggle fa fa-chevron-down"></span></h4>
+	                	<div class="sub-section">
+	                		<div class="header">Sampling Error</div><div><%= detail.ddi.estSmpErr %></div>
+	                		<div class="header">Kualitas Lainnya</div><div><%= detail.ddi.dataAppr %></div>
+	                	</div>
+                	</div>
+                </div>
+                <div id="cat-access" class="tab-pane">
+                    <div class="section">
+                		<h4>Akses Data<span class="toggle fa fa-chevron-down"></span></h4>
+	                	<div class="sub-section">
+	                		<div class="header">Otoritas Akses</div><div>
+	                			<%= detail.ddi.dataContact.contact + ", " + detail.ddi.dataContact.affiliation + 
+	                				"<br/>" + "Email : " + detail.ddi.dataContact.email + ", Homepage : " + detail.ddi.dataContact.uri
+	                			%>
+	                		</div>
+	                		<div class="header">Kontak</div><div>
+	                			<ul class="cuslist">
+	                			<% for(var c=0; c<detail.ddi.contact.length; c++) { %>
+	                				<li><%= detail.ddi.contact[c] %></li>
+	                			<% } %>
+	                			</ul>
+	                		</div>
+	                		<div class="header">Kerahasiaan</div><div><%= detail.ddi.confDec.confDec %></div>
+	                		<div class="header">Persyaratan Kutipan</div><div><%= detail.ddi.citReq %></div>
+	                		<div class="header">Sanggahan</div><div><%= detail.ddi.disclaimer %></div>
+	                		<div class="header">Hak Cipta</div><div><%= detail.ddi.copyright %></div>
+	                	</div>
+                	</div>
+                </div>
+                <div id="cat-res" class="tab-pane">
+                <%
+                	for(var d=0; d<detail.ddi.fileDescription.length; d++) {
+                %>
+
+                    <div class="section">
+                		<h4><%= detail.ddi.fileDescription[d].fileName.replace(".NSDstat", "") + " ("+ detail.ddi.fileDescription[d].varQnty +" Variabel)" %>
+                			<span class="toggle fa fa-chevron-down"></span>
+                		</h4>
+	                	<div class="sub-section">
+	                		<div class="header">Isi</div><div><%= detail.ddi.fileDescription[d].fileCont %></div>
+	                		<div class="header">Jumlah Variabel</div><div><%= detail.ddi.fileDescription[d].varQnty %> Variabel</div>
+	                		<div class="header">Contoh Isian</div><div>
+	                			<% 
+	                				var rKeys = Object.keys(detail.ddi.resources);
+	                				for(var r=0; r<rKeys.length; r++) {
+	                					var resource = JSON.parse(detail.ddi.resources[rKeys[r]]);
+	                					if(resource.fileId == detail.ddi.fileDescription[d].id) {
+	                			%>
+	                			<a href="/my/resource/<%= resource.id %>"><%= resource.fileName %></a>
+	                			<%
+	                					}
+	                				}
+	                			%>
+	                		</div>
+							<div class="header">Variabel</div><div>
+		                		<table class="table table-striped custab">
+								    <thead>
+								        <tr>
+								            <th>Nama</th><th>Label</th><th>Pertanyaan</th>
+								        </tr>
+								    </thead>
+							    <% 
+							    	for(var v=0; v<detail.ddi.variables.length; v++) { 
+							    		var variable = detail.ddi.variables[v];
+							    		if(detail.ddi.fileDescription[d].id == variable.file) {
+							    %>
+							    	<tr>
+							    		<td><%= variable.name %></td>
+							    		<td><%= variable.label %></td>
+							    		<td><%= variable.question %></td>
+							    	</tr>
+							    <% 	
+							    		}
+							    	} 	
+							    %>
+								</table>
+							</div>
+	                	</div>
+                	</div>
+                <% 	} 	%>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+	jQuery(function($) {
+		$('.catalog-body .tab-content .section h4 .toggle').click(function() {
+			if($('.catalog-body .tab-content .section').hasClass('colp')) {
+				$(this).removeClass('fa-chevron-up').addClass('fa-chevron-down');
+			} else {
+				$(this).removeClass('fa-chevron-down').addClass('fa-chevron-up');
+			}
+
+			$(this).parent().parent().toggleClass('colp')
+		});
+	});
+</script>
