@@ -1,0 +1,87 @@
+<% layout('layout/main') -%>
+<%- partial('CatalogHeader') %>
+
+<ul class="breadcrumb">
+    <li><a href="/my/account"><%= user.firstName + " " + user.lastName %></a></li>
+</ul>
+
+<style type="text/css">
+    .form-control { margin-bottom: 10px; }
+</style>
+
+<div class="catalog-details">
+    <div class="catalog-image">
+        <input id="imgProfilePicker" name="accountthumb" type="file" style="visibility: hidden;" />
+        <div id="imgProfile" class="catalog-image-container img-circle" style="background : url(/my/account/thumb); cursor: pointer;"></div>
+    </div>
+    <div class="catalog-info-block" style="margin-top: 15px;">
+        <div class="catalog-body">
+                <form method="POST" action="/my/account/update">
+                    <div class="form-group">
+                        <label class="control-label" for="firstname">First Name</label>  
+                        <input id="firstname" name="firstname" placeholder="First Name" value="<%= user.firstName %>" class="form-control input-md" required="" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="lastname">Last Name</label>  
+                        <input id="lastname" name="lastname" placeholder="Last Name" value="<%= user.lastName %>" class="form-control input-md" required="" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="email">Email</label>  
+                        <input id="email" name="email" placeholder="Email" value="<%= user.emails[0] %>" class="form-control input-md" required="" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="phone">Phone</label>  
+                        <input id="phone" name="phone" placeholder="Phone" value="<%= user.phones[0] %>" class="form-control input-md" required="" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" for="password">Password</label>  
+                        <input id="password" name="password" placeholder="(unchanged)" class="form-control input-md" type="password">
+                    </div>
+                    <div class="form-group">
+                        <button id="btnSave" name="submit" type="submit" class="btn btn-success">Save</button>
+                    </div>
+                </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    jQuery(function($) {
+        $('#imgProfile').click(function() {
+            $('#imgProfilePicker').click();
+        });
+
+        $('#imgProfilePicker').on('change', function() {
+            var input = $(this)[0]
+            var data = new FormData();
+            data.append(input.name, input.files[0]);
+
+            $.ajax({
+                type:'post',
+                url:'/my/account/thumb/update',
+                data:data,
+                contentType : false, 
+                processData : false, 
+                cache : false,
+                xhr: function() { 
+                    var xhr = $.ajaxSettings.xhr();
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = parseInt(evt.loaded / evt.total * 100);
+                            console.log(percentComplete);
+
+                            if (percentComplete === 100) {
+
+                            }
+                        }
+                    }, false);
+
+                    return xhr;
+                },
+                success:function(data) {
+                    window.location.href = '/my/account'
+                }
+            });
+        })
+    })
+</script>

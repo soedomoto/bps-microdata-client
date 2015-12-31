@@ -8,7 +8,8 @@
 
 <div class="catalog-details">
     <div class="catalog-image">
-    	<div class="catalog-image-container img-circle" style="background : url(/my/catalog/<%= detail.id %>/thumb);"></div>
+		<input id="imgCatalogPicker" name="catalogthumb" type="file" style="visibility: hidden;" />
+    	<div id="imgCatalog" class="catalog-image-container img-circle" style="background : url(/my/catalog/<%= detail.id %>/thumb); cursor: pointer;"></div>
     </div>
     <div class="catalog-info-block">
         <div class="catalog-heading">
@@ -370,5 +371,42 @@
 
 			$(this).parent().parent().toggleClass('colp')
 		});
+		
+		$('#imgCatalog').click(function() {
+            $('#imgCatalogPicker').click();
+        });
+
+        $('#imgCatalogPicker').on('change', function() {
+            var input = $(this)[0]
+            var data = new FormData();
+            data.append(input.name, input.files[0]);
+
+            $.ajax({
+                type:'post',
+                url:'/my/catalog/<%= detail.id %>/thumb/update',
+                data:data,
+                contentType : false, 
+                processData : false, 
+                cache : false,
+                xhr: function() { 
+                    var xhr = $.ajaxSettings.xhr();
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = parseInt(evt.loaded / evt.total * 100);
+                            console.log(percentComplete);
+
+                            if (percentComplete === 100) {
+
+                            }
+                        }
+                    }, false);
+
+                    return xhr;
+                },
+                success:function(data) {
+                    window.location.href = '/my/catalog/<%= detail.id %>'
+                }
+            });
+        })
 	});
 </script>

@@ -10,7 +10,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<strong>Import Catalog</strong> <small>upload *.dbf file</small>
+		<strong>Import Catalog</strong> <small>upload zipped dbf file (*.zip)</small>
 	</div>
 	<div class="panel-body">
 		<!-- Standar Form -->
@@ -59,7 +59,7 @@
 
         	$.ajax({
 				type:'post',
-				url:'http://localhost:8080/api/resource/<%= resource.id %>/import/dbf',
+				url:'/my/resource/<%= resource.id %>/import/dbf',
 				data:data,
 				contentType : false, 
 				processData : false, 

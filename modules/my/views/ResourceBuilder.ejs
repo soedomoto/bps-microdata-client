@@ -1,0 +1,224 @@
+<% layout('layout/main') -%>
+<%- partial('ResourceHeader') %>
+
+<style type="text/css">
+    .breadcrumb a.right {
+        margin-left: 10px;
+    }
+
+    #l-var .variable {
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: black;
+    }
+    #l-var .variable.selected {
+        background-color: #EEE;
+    }
+    #l-var .fa {
+        margin-right: 10px;
+    }
+    #l-var .name {
+        position: absolute;
+    }
+    #l-var .text {
+        margin-left: 100px;
+    }
+
+    #l-fil .variable {
+        cursor: pointer;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: black;
+    }
+    #l-fil .variable.selected {
+        background-color: #EEE;
+    }
+    #l-fil .fa {
+        margin-right: 10px;
+    }
+    #l-fil .name {
+        position: absolute;
+    }
+    #l-fil .op {
+        margin-left: 100px;
+    }
+
+    .submit {
+        position: absolute;
+        top: 8px;
+        right: 0px;
+    }
+</style>
+
+<ul class="breadcrumb">
+    <li><a href="/my/catalog">Catalog</a></li>
+    <li><a href="/my/catalog/<%= resource.catalog.id %>"><%= resource.catalog.title %></a></li>
+    <li><a href="/my/resource/<%= resource.id %>"><%= resource.fileName %></a></li>
+    <li class="active"><a href="/my/resource/<%= resource.id %>/build">Builder</a></li>
+    <a class="pull-right right" title="Upload Data" href="/my/resource/<%= resource.id %>/import"><span class="fa fa-download"></span></a>
+    <a class="pull-right right" title="Custom selection" href="/my/resource/<%= resource.id %>/build"><span class="fa fa-cubes"></span></a>
+</ul>
+
+<div class="catalog-details">
+    <div class="catalog-image">
+    	<div class="catalog-image-container img-circle" style="background : url(/my/catalog/<%= resource.catalog.id %>/thumb);"></div>
+    </div>
+    <div class="catalog-info-block">
+        <div class="catalog-heading">
+            <h3><%= resource.catalog.title %></h3>
+            <span class="help-block">
+            	<%= resource.catalog.ddi.geogCover.substr(0, resource.catalog.ddi.geogCover.indexOf(',')) %>, 
+            	<% 
+            		var year = "";
+            		if(resource.catalog.ddi.collectionDate.length > 0) {
+            			year = resource.catalog.ddi.collectionDate[0].date;
+            		} else {
+            			year = resource.catalog.ddi.collectionDate;
+            		}
+            	%>
+            	<%= year.substr(0, year.indexOf('-')) %>
+            </span>
+        </div>
+        <div class="catalog-body">
+            <ul class="navigation">
+                <li class="active">
+                    <a data-toggle="tab" href="#cat-variable"><span class="fa fa-home"></span></a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#cat-sample"><span class="fa fa-clone"></span></a>
+                </li>
+                <li class="pull-right">
+                    <button type="button" id="btn-build" class="btn btn-primary submit">Submit <span class="fa fa-chevron-right"></span></button>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="cat-variable" class="tab-pane active">
+                    <div class="form-group">
+                        <input id="s-var" class="form-control" type="search" placeholder="Search..." />
+                    </div>
+                    <ul id="l-var" class="list-group">
+                    <%  
+                        for(var v=0; v<resource.catalog.ddi.variables.length; v++) {
+                            var variable = resource.catalog.ddi.variables[v];
+                            if(resource.fileId == variable.file) {
+                    %>
+                        <li class="list-group-item variable" data="<%= variable.name.toLowerCase() %>">
+                            <span class="fa fa-square-o"></span>
+                            <span class="name"><%= variable.name.toLowerCase() %></span>
+                            <span class="text"><%= variable.label %></span>
+                        </li>
+                    <%
+                            }
+                        }  
+                    %>
+                    </ul>
+                </div>
+                <div id="cat-sample" class="tab-pane">
+                    <div class="form-group">
+                        <input id="s-fil" class="form-control" type="search" placeholder="Search..." />
+                    </div>
+                    <ul id="l-fil" class="list-group">
+                    <%  
+                        for(var v=0; v<resource.catalog.ddi.variables.length; v++) {
+                            var variable = resource.catalog.ddi.variables[v];
+                            if(resource.fileId == variable.file) {
+                    %>
+                        <li class="list-group-item variable" data="<%= variable.name.toLowerCase() %>">
+                            <span class="fa fa-square-o"></span>
+                            <span class="name"><%= variable.name.toLowerCase() %></span>
+                            <span class="text" style="display:none"><%= variable.label %></span>
+                            <span class="op">
+                                <select>
+                                    <option value="=">=</option>
+                                    <option value=">">></option>
+                                    <option value=">=">>=</option>
+                                    <option value="<"><</option>
+                                    <option value="<="><=</option>
+                                </select>
+                            </span>
+                            <span>
+                                <input class="input" type="text" />
+                            </span>
+                        </li>
+                    <%
+                            }
+                        }  
+                    %>
+                    </ul>
+                </div>
+            </div>
+	    </div>
+	</div
+</div>
+
+<!-- <script type="text/javascript" src="/assets/bootstrap-list-filter/bootstrap-list-filter.min.js"></script> -->
+<script type="text/javascript">
+    jQuery(function($) {
+        $('#s-var').on('keyup', function() {
+            var key = $(this).val().toLowerCase();
+            $('#l-var').find('.variable').each(function() {
+                var liVar = $(this);
+
+                liVar.show();
+                var contains = false;
+                liVar.find('span').each(function() {
+                    if($(this).html().toLowerCase().contains(key)) contains = contains || true;
+                })
+
+                if(! contains) liVar.hide();
+            })
+        });
+
+        $('#s-fil').on('keyup', function() {
+            var key = $(this).val().toLowerCase();
+            $('#l-fil').find('.variable').each(function() {
+                var liVar = $(this);
+
+                liVar.show();
+                var contains = false;
+                liVar.find('span').each(function() {
+                    if($(this).html().toLowerCase().contains(key)) contains = contains || true;
+                })
+
+                if(! contains) liVar.hide();
+            })
+        });
+
+        $('#l-var .variable').click(function() {
+            $(this).toggleClass('selected');
+
+            if($(this).hasClass('selected')) {
+                $(this).find('.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+            } else {
+                $(this).find('.fa').removeClass('fa-check-square-o').addClass('fa-square-o');
+            }
+        });
+
+        $('#btn-build').click(function() {
+            var selects = [];
+            $('#l-var .variable.selected').each(function() {
+                selects.push($(this).attr('data'));
+            })
+
+            var filters = {};
+            $('#l-fil .variable').each(function() {
+                var filKey = $(this).attr('data');
+                var filOp = $(this).find('select').find(":selected").text();
+                var filVal = $(this).find('.input').val();
+
+                if(filVal != null && filVal != '') {
+                    var f = {};
+                    f[filKey] = filVal;
+                    filters[filOp] = f;
+
+                }
+            })
+
+            window.location = '/my/resource/<%= resource.id %>?variables=' + JSON.stringify(selects) + 
+                                '&filter=' + JSON.stringify(filters);
+        })
+    })
+</script>

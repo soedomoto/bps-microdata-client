@@ -5,18 +5,90 @@
     <li class="active"><a href="/my/catalog">Catalog</a></li>
 </ul>
 
-<ul class="media-list main-list">
+<style type="text/css">
+	.catalog .row {
+		margin: 0px;
+		border-bottom: 1px solid #808080;
+		padding: 20px 0;
+		border-color: #428BCA -moz-use-text-color;
+	}
+	.catalog .row:first-child { padding-top: 0px; }
+	.catalog .row:last-child { border-bottom: none; }
+	.catalog .row .col-md-3:before {
+		content: "";
+		display: block;
+		padding-top: 75%;
+	}
+	.catalog .row .col-md-3 {
+		border: 1px solid #F5F5F5;
+	}
+	.catalog .row .col-md-3 .img-wrapper {
+		background: #F5F5F5 none repeat scroll 0% 0%;
+		overflow: hidden;
+		position:  absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		margin: 5px;
+	}
+	.catalog .row .col-md-3 .img-wrapper .img-responsive {
+		width: 100%;
+	}
+
+	.info {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+		font-size: 95%;
+		color: grey;
+		border-bottom: 1px solid #F5F5F5;
+	}
+	.info li:first-child:before {
+		content: ""
+	}
+	.info li:before {
+		content: ", "
+	}
+	.info li {
+		display: inline;
+	}
+
+	.catalog .row .col-md-9 h4 {
+		margin : 0px;
+	}
+	.catalog .row .col-md-9 p {
+		max-height: 87px;
+		overflow: hidden;
+		text-overflow : ellipsis;
+		line-height: 17px;
+		padding-top: 5px;
+	}
+</style>
+
+<div class="catalog">
 	<% for(var c=0; c<catalogs.length; c++) { %>
-		<li class="media">
-			<a class="pull-left" href="/my/catalog/<%= catalogs[c].id %>">
-				<img class="media-object" src="/my/catalog/<%= catalogs[c].id %>/thumb" alt="...">
+	<div class="row">
+		<div class="col-md-3">
+			<a href="/my/catalog/<%= catalogs[c].id %>">
+				<div class="img-wrapper">
+					<img class="img-responsive" src="/my/catalog/<%= catalogs[c].id %>/thumb" alt="...">
+				</div>
 			</a>
-			<div class="media-body">
-				<h4 class="media-heading">
-					<a href="/my/catalog/<%= catalogs[c].id %>"><%= catalogs[c].title %></a>
-				</h4>
-				<p class="by-author">Badan Pusat Statistik</p>
-			</div>
-		</li>
+		</div>
+		<div class="col-md-9">
+			<h4><a href="/my/catalog/<%= catalogs[c].id %>"><%= catalogs[c].title %></a></h4>
+			<ul class="info">
+				<li>Jenis data : <%= catalogs[c].dataKind ? catalogs[c].dataKind : "" %></li>
+			</ul>
+			<p><%= catalogs[c].abstract ? catalogs[c].abstract : "" %></p>
+		</div>
+	</div>
 	<% } %>
-</ul>
+</div>
+
+<script type="text/javascript">
+	jQuery(function($) {
+		console.log($('catalog .col-md-3').width())
+	});
+</script>

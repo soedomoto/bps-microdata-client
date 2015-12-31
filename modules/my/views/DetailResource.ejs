@@ -8,13 +8,17 @@
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
+    .breadcrumb a.right {
+        margin-left: 10px;
+    }
 </style>
 
 <ul class="breadcrumb">
     <li><a href="/my/catalog">Catalog</a></li>
     <li><a href="/my/catalog/<%= resource.catalog.id %>"><%= resource.catalog.title %></a></li>
     <li class="active"><a href="/my/resource/<%= resource.id %>"><%= resource.fileName %></a></li>
-    <a class="pull-right" href="/my/resource/<%= resource.id %>/import"><span class="fa fa-download"></span></a>
+    <a class="pull-right right" title="Upload Data" href="/my/resource/<%= resource.id %>/import"><span class="fa fa-download"></span></a>
+    <a class="pull-right right" title="Custom selection" href="/my/resource/<%= resource.id %>/build"><span class="fa fa-cubes"></span></a>
 </ul>
 
 <div class="catalog-details">

@@ -1,4 +1,14 @@
-var path = require('path'), 
+var config = {
+	serverListenAddress : 'localhost', 
+	serverListerPort : 443, 
+	serverPrivateKey : 'cert/private.key', 
+	serverCertificate : 'cert/certificate.pem', 
+	microdataApiServer : 'http://10.13.103.16:8080'
+}
+
+var https = require('https'),
+	fs = require('fs'), 
+	path = require('path'), 
 	express = require('express'), 
 	favicon = require('serve-favicon'), 
 	logger = require('morgan'), 
@@ -6,11 +16,13 @@ var path = require('path'),
 	session = require('express-session'), 
 	bodyParser = require('body-parser'), 
 	errorHandler = require('errorhandler'), 
-	compression = require('compression'),
+	compression = require('compression'), 
+	busboy = require('connect-busboy'),
 	Passport = require('passport'), 
 	MScanner = require('ny').ModuleScanner;
 
 var app = express();
+app.set('api-host', config.microdataApiServer);
 
 app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -22,12 +34,15 @@ app.use(session({
 	saveUninitialized: true, 
 	secret: 'uwotm8' }
 ));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+//app.use(bodyParser.json());
+//app.use(bodyParser.urlencoded({ extended: true }));
+app.use(busboy());
 
 MScanner.scan(__dirname).apply(app);
 
-var server = app.listen(8000, function () {
-	var port = server.address().port;
-	console.log('BPS Microdata server listening at http://localhost:%s', port);
+https.createServer({
+	key: fs.readFileSync(config.serverPrivateKey),
+	cert: fs.readFileSync(config.serverCertificate)
+}, app).listen(config.serverListerPort, config.serverListenAddress, function(err) {
+	console.log('BPS Microdata GUI Server listening at %s:%s', config.serverListenAddress, config.serverListerPort);
 });

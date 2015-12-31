@@ -15,6 +15,7 @@ body {
   font-weight: 400;
   color: #64686d;
   line-height: 26px;
+  background-image: url(/assets/images/bg.jpg);
 }
 h1,
 h2,

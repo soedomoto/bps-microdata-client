@@ -173,7 +173,7 @@ ul.navigation li.active a {background: #428BCA; color: #fff;}
 */
 
 ul.navigation {padding: 0px; /*margin-bottom: 15px;*/ list-style: outside none none; border: 1px solid #428BCA; border-left: none; border-right: none;}
-ul.navigation li {display: inline-block;padding: 15px 0;}
+ul.navigation li {display: inline-block;padding: 15px 0; position: relative;}
 ul.navigation li a {padding: 16px 22px;}
 ul.navigation li.active a {background: #428BCA none repeat scroll 0% 0%;color: #FFF;}
 
