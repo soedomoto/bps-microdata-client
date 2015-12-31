@@ -44,5 +44,5 @@ https.createServer({
 	key: fs.readFileSync(config.serverPrivateKey),
 	cert: fs.readFileSync(config.serverCertificate)
 }, app).listen(config.serverListerPort, config.serverListenAddress, function(err) {
-	console.log('BPS Microdata GUI Server listening at %s:%s', config.serverListenAddress, config.serverListerPort);
+	console.log('BPS Microdata GUI Server listening at https://%s:%s', config.serverListenAddress, config.serverListerPort);
 });
